@@ -74,8 +74,8 @@ const login = async (req, res) => {
         const token = token_1.default.generateToken(user.id, user.email, user.isAdmin);
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 1000 * 60 * 60 * 24,
         });
         res.status(200).json({
