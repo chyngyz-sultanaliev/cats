@@ -4,7 +4,7 @@ declare const _default: {
     login: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
     profile: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
     update: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-    logout: (_req: Request, res: Response) => Promise<void>;
+    logout: (_req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 };
 export default _default;
 //# sourceMappingURL=auth.controllers.d.ts.map

@@ -72,6 +72,12 @@ const login = async (req, res) => {
             });
         }
         const token = token_1.default.generateToken(user.id, user.email, user.isAdmin);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 1000 * 60 * 60 * 24,
+        });
         res.status(200).json({
             success: true,
             message: "Вход выполнен успешно",
@@ -181,9 +187,14 @@ const update = async (req, res) => {
     }
 };
 const logout = async (_req, res) => {
-    res.status(200).json({
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
+    return res.status(200).json({
         success: true,
-        message: "Вы успешно вышли из системы",
+        message: "Вы успешно вышли ",
     });
 };
 exports.default = { register, login, profile, update, logout };

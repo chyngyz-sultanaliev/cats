@@ -7,9 +7,10 @@ const globalRoutes = Router();
 
 const corsConfig = {
   origin: ["http://localhost:3000"],
+  credentials: true,
 };
 
-globalRoutes.use("/auth",cors(corsConfig), authRoutes);
-globalRoutes.use("/cats",cors(corsConfig), catsRoutes);
-globalRoutes.use("/favorite",cors(corsConfig), favoriteRoutes);
+globalRoutes.use("/auth", cors(corsConfig), authRoutes);
+globalRoutes.use("/cats", cors(corsConfig), catsRoutes);
+globalRoutes.use("/favorite", cors(corsConfig), favoriteRoutes);
 export default globalRoutes;

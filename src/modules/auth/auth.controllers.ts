@@ -5,7 +5,7 @@ import generatedToken from "../../config/token";
 
 const register = async (req: Request, res: Response) => {
   try {
-    const { userName, email, password , isAdmin} = req.body;
+    const { userName, email, password, isAdmin } = req.body;
 
     if (!userName || !email || !password) {
       return res.status(400).json({
@@ -88,6 +88,12 @@ const login = async (req: Request, res: Response) => {
       user.email,
       user.isAdmin
     );
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
 
     res.status(200).json({
       success: true,
@@ -121,7 +127,7 @@ const profile = async (req: Request, res: Response) => {
         id: true,
         userName: true,
         email: true,
-        avatar:true, 
+        avatar: true,
         createdAt: true,
         favorites: true,
       },
@@ -207,9 +213,15 @@ const update = async (req: Request, res: Response) => {
 };
 
 const logout = async (_req: Request, res: Response) => {
-  res.status(200).json({
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true, 
+    sameSite: "none",
+  });
+
+  return res.status(200).json({
     success: true,
-    message: "Вы успешно вышли из системы",
+    message: "Вы успешно вышли ",
   });
 };
 
