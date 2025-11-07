@@ -9,6 +9,7 @@ const routes_1 = __importDefault(require("./routes"));
 const buildServer = () => {
     const server = (0, express_1.default)();
     server.use(express_1.default.json());
+    server.enable("trust proxy");
     server.get("/", (req, res) => {
         res.status(200).json({
             message: "Hello Work",
