@@ -5,13 +5,24 @@ import catsRoutes from "../modules/cats/cats.routes";
 import favoriteRoutes from "../modules/favorite/favorite.routes";
 const globalRoutes = Router();
 
-const corsConfig = {
-  origin: ["http://localhost:3000", "https://next-cat-delta.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-};
+const allowedOrigins = [
+  "https://next-cat-delta.vercel.app",
+  "http://localhost:3000",
+];
 
-globalRoutes.use("/auth", cors(corsConfig), authRoutes);
-globalRoutes.use("/cats", cors(corsConfig), catsRoutes);
-globalRoutes.use("/favorite", cors(corsConfig), favoriteRoutes);
+globalRoutes.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
+globalRoutes.use("/auth", authRoutes);
+globalRoutes.use("/cats", catsRoutes);
+globalRoutes.use("/favorite", favoriteRoutes);
 export default globalRoutes;
