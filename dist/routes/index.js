@@ -10,7 +10,8 @@ const cats_routes_1 = __importDefault(require("../modules/cats/cats.routes"));
 const favorite_routes_1 = __importDefault(require("../modules/favorite/favorite.routes"));
 const globalRoutes = (0, express_1.Router)();
 const corsConfig = {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://next-cat-delta.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 };
 globalRoutes.use("/auth", (0, cors_1.default)(corsConfig), auth_routes_1.default);

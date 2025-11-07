@@ -6,7 +6,8 @@ import favoriteRoutes from "../modules/favorite/favorite.routes";
 const globalRoutes = Router();
 
 const corsConfig = {
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000", "https://next-cat-delta.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 };
 
