@@ -74,7 +74,7 @@ const login = async (req, res) => {
         const token = token_1.default.generateToken(user.id, user.email, user.isAdmin);
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             sameSite: "lax",
             maxAge: 1000 * 60 * 60 * 24,
         });
