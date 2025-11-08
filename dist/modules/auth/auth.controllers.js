@@ -76,7 +76,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            domain: "https://next-cat-chi.vercel.app",
+            domain: "next-cat-chi.vercel.app",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(200).json({
