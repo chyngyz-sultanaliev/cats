@@ -4,10 +4,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_1 = __importDefault(require("../../config/prisma"));
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
     try {
-        const cats = await prisma_1.default.cats.findMany({});
-        res.status(200).json({ success: true, cats });
+        const userId = req.user?.id;
+        const cats = await prisma_1.default.cats.findMany({
+            include: {
+                favorites: userId
+                    ? {
+                        where: { userId },
+                        select: { id: true },
+                    }
+                    : false,
+            },
+        });
+        const catsWithFavorite = cats.map((cat) => ({
+            ...cat,
+            isFavorite: cat.favorites ? cat.favorites.length > 0 : false,
+            favorites: undefined,
+        }));
+        res.status(200).json({ success: true, cats: catsWithFavorite });
     }
     catch (error) {
         console.error("Ошибка getAll:", error);

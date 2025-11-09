@@ -44,21 +44,17 @@ const addFavorite = async (req, res) => {
 };
 const removeFavorite = async (req, res) => {
     try {
-        const { favoriteId } = req.params;
-        const userId = req.user?.id;
-        if (!userId) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized",
-            });
-        }
-        if (!favoriteId || !userId) {
+        const { id } = req.params;
+        if (!id) {
             return res
                 .status(400)
-                .json({ success: false, message: "ID кота и user обязателен" });
+                .json({ success: false, message: "ID кота обязателен" });
         }
+        const favorite = await prisma_1.default.favorite.findUnique({ where: { id } });
+        if (!favorite)
+            return res.status(404).json({ error: "Избранное не найдено" });
         await prisma_1.default.favorite.delete({
-            where: { id: favoriteId, userId },
+            where: { id },
         });
         res.status(200).json({
             success: true,
