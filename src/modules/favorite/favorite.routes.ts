@@ -8,6 +8,6 @@ favoriteRoutes.get("/", authMiddleware, favoriteControllers.getAll);
 
 favoriteRoutes.post("/", authMiddleware, favoriteControllers.addFavorite);
 
-favoriteRoutes.delete("/:favoriteId", authMiddleware, favoriteControllers.removeFavorite);
+favoriteRoutes.delete("/:id", authMiddleware, favoriteControllers.removeFavorite);
 
 export default favoriteRoutes

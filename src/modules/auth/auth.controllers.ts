@@ -92,7 +92,6 @@ const login = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      domain: "next-cat-chi.vercel.app",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({
@@ -129,7 +128,7 @@ const profile = async (req: Request, res: Response) => {
         email: true,
         avatar: true,
         createdAt: true,
-        favorites: true,
+        isAdmin: true,
       },
     });
 

@@ -1,10 +1,27 @@
 import { Request, Response } from "express";
 import prisma from "../../config/prisma";
 
-const getAll = async (_req: Request, res: Response) => {
+const getAll = async (req: Request, res: Response) => {
   try {
-    const cats = await prisma.cats.findMany({});
-    res.status(200).json({ success: true, cats });
+    const userId = req.user?.id as string;
+    const cats = await prisma.cats.findMany({
+      include: {
+        favorites: userId
+          ? {
+              where: { userId },
+              select: { id: true },
+            }
+          : false,
+      },
+    });
+
+    const catsWithFavorite = cats.map((cat) => ({
+      ...cat,
+      isFavorite: cat.favorites ? cat.favorites.length > 0 : false,
+      favorites: undefined,
+    }));
+
+    res.status(200).json({ success: true, cats: catsWithFavorite });
   } catch (error) {
     console.error("Ошибка getAll:", error);
     res.status(500).json({ success: false, message: "Ошибка сервера" });
@@ -37,7 +54,7 @@ const getOne = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
   try {
-    const { name, color, age, paws, price,  image } = req.body;
+    const { name, color, age, paws, price, image } = req.body;
 
     if (!name || !color || !age || !paws || !price) {
       return res.status(400).json({
@@ -47,7 +64,7 @@ const create = async (req: Request, res: Response) => {
     }
 
     const newCat = await prisma.cats.create({
-      data: { name, color, age, paws, price,image },
+      data: { name, color, age, paws, price, image },
     });
 
     res.status(201).json({ success: true, cat: newCat });
