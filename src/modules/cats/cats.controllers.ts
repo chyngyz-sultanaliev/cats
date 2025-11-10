@@ -54,7 +54,7 @@ const getOne = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
   try {
-    const { name, color, age, paws, price, image } = req.body;
+    const { name, color, age, paws, price, image, sale } = req.body;
 
     if (!name || !color || !age || !paws || !price) {
       return res.status(400).json({
@@ -64,7 +64,7 @@ const create = async (req: Request, res: Response) => {
     }
 
     const newCat = await prisma.cats.create({
-      data: { name, color, age, paws, price, image },
+      data: { name, color, age, paws, price, image, sale },
     });
 
     res.status(201).json({ success: true, cat: newCat });
@@ -119,7 +119,7 @@ const remove = async (req: Request, res: Response) => {
     res.status(200).json({ success: true, message: "Кот удалён" });
   } catch (error) {
     console.error("Ошибка remove:", error);
-    res.status(500).json({ success: false, message: "Ошибка сервера" });
+    res.status(500).json({ success: false, message: "Ошибка сервера",error });
   }
 };
 

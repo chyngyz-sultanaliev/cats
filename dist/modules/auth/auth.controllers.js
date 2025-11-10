@@ -61,7 +61,7 @@ const login = async (req, res) => {
         if (!user || !user.password) {
             return res.status(404).json({
                 success: false,
-                message: "Пользователь не найден или нет пароля",
+                message: "Пользователь не найден",
             });
         }
         const isMatch = await bcryptjs_1.default.compare(password, user.password);

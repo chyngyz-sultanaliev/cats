@@ -37,7 +37,7 @@ model Favorite {
   id     String @id @default(uuid())
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  cat    Cats   @relation(fields: [catId], references: [id])
+  cat    Cats   @relation(fields: [catId], references: [id], onDelete: Cascade)
   catId  String
   createdAt DateTime @default(now())
 

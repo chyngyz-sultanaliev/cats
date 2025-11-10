@@ -71,7 +71,7 @@ const login = async (req: Request, res: Response) => {
     if (!user || !user.password) {
       return res.status(404).json({
         success: false,
-        message: "Пользователь не найден или нет пароля",
+        message: "Пользователь не найден",
       });
     }
 
